@@ -24,7 +24,7 @@ const mongodb_password = process.env.MONGODB_PASSWORD;
 const mongodb_database = process.env.MONGODB_DATABASE;
 const mongodb_session_secret = process.env.MONGODB_SESSION_SECRET;
 
-const node_session_secret = process.env.NODE_SESSION_SECRET;
+const node_session_secret = "5fc2e924-75ac-474b-bcec-a22908b0a50c";
 /* END secret section */
 
 var {database} = include('databaseConnection');
