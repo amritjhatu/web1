@@ -1,5 +1,7 @@
 const express = require("express");
 
+const session = require("express-session");
+
 const {MongoClient} = require("mongodb")
 
 async function main() {
@@ -7,7 +9,7 @@ async function main() {
 
     const client = new MongoClient(uri);
 
-    await client.connect();
+    await client.connect;
 }
 
 const app = express();
@@ -16,12 +18,12 @@ const port = process.env.PORT || 8020;
 
 const node_session_secret = "5fc2e924-75ac-474b-bcec-a22908b0a50c";
 
-app.use(session{(
+app.use(session{{
     secret: node_session_secret,
     // store: mongoStore, // default is memory store
-    saveUninitialized: false;
+    saveUninitialized: false,
     resave: true
-)
+}
 });
 
 var numPageHits = 0;
