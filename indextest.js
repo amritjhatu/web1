@@ -85,7 +85,7 @@ app.get('/nosql-injection', async (req,res) => {
 app.get('/about', (req,res) => {
     var color = req.query.color;
 
-    res.send("<h1 style='color:"+color+";'>Patrick Guichon</h1>");
+    res.send("<center><h1 style='color:"+color+";'>Amrit Singh</h1></center>");
 });
 
 app.get('/contact', (req,res) => {
