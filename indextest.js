@@ -36,7 +36,7 @@ app.use(express.urlencoded({extended: false}));
 var mongoStore = MongoStore.create({
 	mongoUrl: `mongodb+srv://demo:8NlO3m7qpDNcEbXu@cluster0.8a7065p.mongodb.net/test`,
 	crypto: {
-		secret: ead29f69-ff68-410b-94cf-dd69670380d5
+		secret: 'ead29f69-ff68-410b-94cf-dd69670380d5'
 	}
 })
 
