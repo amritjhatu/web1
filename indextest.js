@@ -141,15 +141,6 @@ app.get('/signup', (req,res) => {
     <button>Submit</button>
     </form>
     `;
-    if (missingUsername) {
-        html += "<br> username is required";
-    }
-    if (missingPassword) {
-        html += "<br> password is required";
-    }
-    if (missingEmail) {
-        html += "<br> email is required";
-    }
     res.send(html);
 });
 
