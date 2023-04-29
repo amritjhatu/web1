@@ -130,10 +130,14 @@ app.post('/submitEmail', (req,res) => {
 app.get('/signup', (req,res) => {
     var html = `
     create user
+    <br>
     <form action='/submitUser' method='post'>
     <input name='username' type='text' placeholder='username'>
+    <br>
     <input name ='email' type='text' placeholder='email'>
+    <br>
     <input name='password' type='password' placeholder='password'>
+    <br>
     <button>Submit</button>
     </form>
     `;
