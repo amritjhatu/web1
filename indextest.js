@@ -48,12 +48,22 @@ app.use(session({
 }
 ));
 
-app.get('/', (req,res) => {
-    res.send(`<a href="/login"><button>Log In</button></a>
-              <br>
-              <a href="/signup"><button>Sign Up</button></a>`
-    );
-});
+app.get('/', (req, res) => {
+    if (req.session.loggedIn) {
+      res.send(`
+        <h1>Hello, ${req.session.name}</h1>
+        <a href="/members"><button>View Member's Area</button></a>
+        <br>
+        <a href="/logout"><button>Log Out</button></a>
+      `);
+    } else {
+      res.send(`
+        <a href="/login"><button>Log In</button></a>
+        <br>
+        <a href="/signup"><button>Sign Up</button></a>
+      `);
+    }
+  });
 
 app.get('/nosql-injection', async (req,res) => {
 	var username = req.query.user;
@@ -117,7 +127,7 @@ app.post('/submitEmail', (req,res) => {
 });
 
 
-app.get('/createUser', (req,res) => {
+app.get('/signup', (req,res) => {
     var html = `
     create user
     <form action='/submitUser' method='post'>
