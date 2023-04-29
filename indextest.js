@@ -34,7 +34,7 @@ const userCollection = database.db(mongodb_database).collection('users');
 app.use(express.urlencoded({extended: false}));
 
 var mongoStore = MongoStore.create({
-	mongoUrl: `mongodb+srv://demo:8NlO3m7qpDNcEbXu@cluster0.8a7065p.mongodb.net/test`,
+	mongoUrl: `mongodb+srv://demo:8NlO3m7qpDNcEbXu@cluster0.8a7065p.mongodb.net/?retryWrites=true&w=majority`,
 	crypto: {
 		secret: 'ead29f69-ff68-410b-94cf-dd69670380d5'
 	}
@@ -220,18 +220,18 @@ app.get('/logout', (req,res) => {
 });
 
 
-app.get('/cat/:id', (req,res) => {
+app.get('/sloth/:id', (req,res) => {
 
-    var cat = req.params.id;
+    var sloth = req.params.id;
 
-    if (cat == 1) {
-        res.send("Fluffy: <img src='/flower.gif' style='width:250px;'>");
+    if (sloth == 1) {
+        res.send("Enjoy: <img src='/flower.gif' style='width:250px;'>");
     }
-    else if (cat == 2) {
-        res.send("Socks: <img src='/slothm.gif' style='width:250px;'>");
+    else if (sloth == 2) {
+        res.send("Hmmmm...: <img src='/slothm.gif' style='width:250px;'>");
     }
     else {
-        res.send("Invalid sloth id: "+cat);
+        res.send("Invalid sloth id: "+sloth);
     }
 });
 
