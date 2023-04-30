@@ -13,7 +13,7 @@ const app = express();
 
 app.use(express.urlencoded({extended: false}));
 
-const expireTime = 1 * 60 * 60 * 60; //expires after 1 hour, time is stored in milliseconds  (hours * minutes * seconds * millis)
+const expireTime = 1 * 60 * 60 * 1000; //expires after 1 day  (hours * minutes * seconds * millis)
 
 /* secret information section */
 const mongodb_host = process.env.MONGODB_HOST;
@@ -167,15 +167,15 @@ app.post('/loggingin', async (req,res) => {
 });
 
 app.get('/loggedIn', (req,res) => {
-  if (!req.session.authenticated) {
-      res.redirect('/login');
-      return;
-  }
-  var html = `
-  You are logged in!
-  `;
-  res.send(html);
-});
+    if (!req.session.loggedIn) {
+        res.redirect('/login');
+        return;
+    }
+    var html = `
+    You are logged in!
+    `;
+    res.send(html);
+  });
 
 app.get('/sloth/:id', (req,res) => {
 
