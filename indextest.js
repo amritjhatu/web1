@@ -36,12 +36,12 @@ app.use(express.urlencoded({extended: false}));
 var mongoStore = MongoStore.create({
 	mongoUrl: `mongodb+srv://demo:8NlO3m7qpDNcEbXu@cluster0.8a7065p.mongodb.net/test`,
 	crypto: {
-		secret: mongodb_session_secret
+		secret: MONGODB_SESSION_SECRET
 	}
 })
 
 app.use(session({ 
-    secret: node_session_secret,
+    secret: NODE_SESSION_SECRET,
 	store: mongoStore, //default is memory store 
 	saveUninitialized: false, 
 	resave: true
