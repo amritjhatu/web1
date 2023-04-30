@@ -35,6 +35,7 @@ var mongoStore = MongoStore.create({
 	}
 });
 
+console.log('Node session secret:', node_session_secret);
 app.use(session({ 
       secret: node_session_secret,
       store: mongoStore, //default is memory store 
