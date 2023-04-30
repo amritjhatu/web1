@@ -1,4 +1,4 @@
-equire("./utils.js");
+require("./utils.js");
 
 require('dotenv').config();
 const express = require('express'); 
