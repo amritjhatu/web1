@@ -36,12 +36,12 @@ var mongoStore = MongoStore.create({
 });
 
 app.use(session({ 
-  secret: node_session_secret,
-	store: mongoStore, //default is memory store 
-	saveUninitialized: false, 
-	resave: true
-}
-));
+      secret: node_session_secret,
+      store: mongoStore, //default is memory store 
+      saveUninitialized: false, 
+      resave: true
+  }
+  ));
 
 const port = process.env.PORT || 8020;
 
