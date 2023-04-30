@@ -24,7 +24,7 @@ const mongodb_password = process.env.MONGODB_PASSWORD;
 const mongodb_database = process.env.MONGODB_DATABASE;
 const mongodb_session_secret = process.env.MONGODB_SESSION_SECRET;
 
-const node_session_secret = "5fc2e924-75ac-474b-bcec-a22908b0a50c";
+const node_session_secret = process.env.NODE_SESSION_SECRET;
 /* END secret section */
 
 var {database} = include('databaseConnection');
@@ -34,9 +34,9 @@ const userCollection = database.db(mongodb_database).collection('users');
 app.use(express.urlencoded({extended: false}));
 
 var mongoStore = MongoStore.create({
-	mongoUrl: `mongodb+srv://demo:8NlO3m7qpDNcEbXu@cluster0.8a7065p.mongodb.net/?retryWrites=true&w=majority`,
+	mongoUrl: `mongodb+srv://demo:8NlO3m7qpDNcEbXu@cluster0.8a7065p.mongodb.net/test`,
 	crypto: {
-		secret: 'ead29f69-ff68-410b-94cf-dd69670380d5'
+		secret: mongodb_session_secret
 	}
 })
 
