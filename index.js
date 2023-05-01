@@ -55,7 +55,7 @@ app.get('/', (req, res) => {
     </form>
     `);
     if (!req.session.authenticated) {
-      res.send(header + notLoggedIn);
+      res.send(notLoggedIn);
     } else {
       var loggedIn = `
         <form action="/members">
@@ -65,7 +65,7 @@ app.get('/', (req, res) => {
           <button type="submit">Log Out</button>
         </form>
       `;
-      res.send(header + loggedIn);
+      res.send(loggedIn);
     } 
   });
 
