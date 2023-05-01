@@ -76,7 +76,7 @@ app.get('/signup', (req,res) => {
     Create your user here
     <br>
     <form action='/submitUser' method='post'>
-    <input name='username' type='text' placeholder='username' required>
+    <input name='name' type='text' placeholder='username' required>
     <br>
     <input name ='email' type='text' placeholder='email' required>
     <br>
