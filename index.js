@@ -78,7 +78,9 @@ app.get('/signup', (req,res) => {
     </form>
     `;
     res.send(html);
-    req.session.name = result[0].name;
+    req.session.loggedIn = true;
+    req.session.name = username;
+    req.session.cookie.maxAge = expireTime;
 });
 
 app.post('/submitUser', async (req,res) => {
@@ -124,7 +126,9 @@ app.get('/login', (req,res) => {
     </form>
     `;
     res.send(html);
-    req.session.name = result[0].name;
+    req.session.loggedIn = true;
+    req.session.name = username;
+    req.session.cookie.maxAge = expireTime;
 });
 
 app.post('/members', (req,res) => {
