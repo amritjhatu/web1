@@ -125,6 +125,16 @@ app.get('/login', (req,res) => {
     res.send(html);
 });
 
+app.get('/members', (req,res) => {
+    var html = `
+    <h1>Hello, ${req.session.name}</h1>
+    <br>
+    <a href="/logout">Logout</a>
+
+    `;
+    res.send(html);
+});
+
 app.post('/loggingin', async (req,res) => {
   var username = req.body.username;
   var password = req.body.password;
@@ -177,6 +187,14 @@ app.get('/loggedIn', (req,res) => {
     `;
     res.send(html);
   });
+
+  app.get('/logout', (req,res) => {
+	req.session.destroy();
+    var html = `
+    You are logged out.
+    `;
+    res.send(html);
+});
 
 app.get('/sloth/:id', (req,res) => {
 
