@@ -35,7 +35,6 @@ var mongoStore = MongoStore.create({
 	}
 });
 
-console.log('Node session secret:', node_session_secret);
 app.use(session({ 
       secret: node_session_secret,
       store: mongoStore, //default is memory store 
@@ -129,7 +128,7 @@ app.post('/members', (req,res) => {
     var html = `
     <h1>Hello, ${req.session.name}</h1>
     <br>
-    <a href="/logout">Logout</a>
+    <a href="/">Logout</a>
 
     `;
     res.send(html);
@@ -169,6 +168,7 @@ app.post('/loggingin', async (req,res) => {
     req.session.authenticated = true;
     req.session.username = username;
     req.session.cookie.maxAge = expireTime;
+    req.session.name = result[0].name;
 
     res.redirect('/loggedIn');
   } else {
