@@ -79,7 +79,7 @@ app.get('/signup', (req,res) => {
     `;
     res.send(html);
     req.session.loggedIn = true;
-    req.session.name = username;
+    req.session.name = result[0].name;
     req.session.cookie.maxAge = expireTime;
 });
 
@@ -127,7 +127,7 @@ app.get('/login', (req,res) => {
     `;
     res.send(html);
     req.session.loggedIn = true;
-    req.session.name = username;
+    req.session.name = result[0].name;
     req.session.cookie.maxAge = expireTime;
 });
 
