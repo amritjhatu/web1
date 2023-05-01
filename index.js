@@ -60,6 +60,8 @@ app.get('/', (req, res) => {
     res.send(notLoggedIn);
   } else {
     var loggedIn = `
+    <h1>Hello ${req.session.name}</h1>
+    <br>
     <form action="/members">
     <button type="submit">Visit Member's Section</button>
     </form>
@@ -160,7 +162,7 @@ const slothCarousel = '/sloth' + rNum + '.gif';
 
   var html = `
       <h1>Hello ${req.session.name}</h1>
-      <img src=${slothCarousel}><img src=${slothCarousel} style='width:250px;'>
+      <img src=${slothCarousel} style='width:250px;'>
       <form action="/">
       <button type="submit">Return Home</button>
       </form>
