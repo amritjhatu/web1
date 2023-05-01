@@ -111,6 +111,7 @@ app.post('/submitUser', async (req,res) => {
   const validationResult = schema.validate({name, email, password});
 
   if (validationResult.error != null) {
+    console.log("Validation error: ", validationResult.error.details[0].message);
     res.redirect("/signUp?invalid=true");
     return;
   }
