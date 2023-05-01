@@ -71,7 +71,7 @@ app.get('/', (req, res) => {
 
 app.get('/signup', (req,res) => {
     var html = `
-    create user
+    Create your user here
     <br>
     <form action='/submitUser' method='post'>
     <input name='username' type='text' placeholder='username' required>
@@ -243,7 +243,7 @@ app.get('/sloth/:id', (req,res) => {
     }
 });
 
-app.use(express.static(__dirname + "/img"));
+app.use(express.static(__dirname + "/public"));
 
 // Below is a catch all that takes one to a 404 page. 
 app.get("*", (req,res) => {
