@@ -123,7 +123,7 @@ app.post('/submitUser', async (req,res) => {
   await userCollection.insertOne({name: name, email: email, password: hashedPassword});
 
   req.session.authenticated = true;
-  req.session.email = email;
+  req.session.name = user.name;
   req.session.cookie.maxAge = expireTime;
   req.session.name = name;
 
