@@ -120,7 +120,7 @@ app.post('/submitUser', async (req,res) => {
 
   var hashedPassword = await bcrypt.hashSync(password, saltRounds);
 
-  await userCollection.insertOne({name: name, email: email, password: hashedPassword});
+  await userCollection.insertOne({username: username, email: email, password: hashedPassword});
 
   req.session.authenticated = true;
   req.session.email = email;
@@ -138,7 +138,7 @@ log in
     <input name='password' type='password' placeholder='password'required>
     <button>Submit</button>
     </form>
-    ${req.query.incorrect === 'true' ? 'Wrong Email Address.' :''}
+    ${req.query.incorrect === 'true' ? 'Wrong User value..' :''}
     ${req.query.incorrectPass === 'true' ? 'Wrong Password.' :''}
     ${req.query.blank === 'true' ? 'Field is blank.' :''}
     ${req.query.invalid === 'true' ? 'Format is not valid.' :''}
@@ -236,7 +236,7 @@ app.get('/sloth/:id', (req,res) => {
         res.send("Hmmmm...: <img src='/slothm.gif' style='width:250px;'>");
     }
     else {
-        res.send("Invalid sloth id: "+sloth);
+        res.send("Yaaaaawn: <img src='/slothm.gif' style='width:250px;'>"+sloth);
     }
 });
 
