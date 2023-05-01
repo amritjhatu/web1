@@ -134,7 +134,7 @@ app.get('/login', (req,res) => {
 var html = `
 log in
     <form action='/loggingin' method='post'>
-    <input name='username' type='text' placeholder='username'required>
+    <input name='name' type='text' placeholder='username' required>
     <br>
     <input name='password' type='password' placeholder='password'required>
     <br>
@@ -176,23 +176,23 @@ const slothCarousel = '/sloth' + rNum + '.gif';
 });
 
 app.post('/loggingin', async (req,res) => {
-  var email = req.body.email;
+  var name = req.body.name;
   var password = req.body.password;
 
-  if(email == "" || password == "") {
+  if(name == "" || password == "") {
     res.redirect("/login?blank=true");
     return;
   }
 
-  const schema = Joi.string().email().max(50).required();
-  const validationResult = schema.validate(email);
+  const schema = Joi.string().name().max(50).required();
+  const validationResult = schema.validate(name);
   if (validationResult.error != null) {
     res.redirect("/login?invalid=true");
     return;
   }
 
   const result = await userCollection.find({
-    email: email
+    name: name
   }).project({name: 1, email: 1, password: 1, _id: 1}).toArray();
   console.log(result);
 
