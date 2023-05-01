@@ -60,14 +60,12 @@ app.get('/', (req, res) => {
     res.send(notLoggedIn);
   } else {
     var loggedIn = `
-    <div style="text-align: center;">
     <form action="/members">
     <button type="submit">Visit Member's Section</button>
     </form>
     <form action="/logout">
     <button type="submit">Log Out</button>
     </form>
-    </div>
     `;
     res.send(loggedIn);
   } 
@@ -88,7 +86,6 @@ app.get('/signup', (req,res) => {
     </form>
     ${req.query.blank === 'true' ? 'Field is blank. Retry.' :''}
     ${req.query.invalid === 'true' ? 'Field is not valid. Retry.' :''}
-  </div>
   `;
   res.send(html);
 });
