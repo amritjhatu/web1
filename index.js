@@ -100,7 +100,8 @@ app.post('/submitUser', async (req,res) => {
     // This is mainly from the demo, but I want to understand it more in regards to what my options are for values.
     const schema = Joi.object(
       {
-        name: Joi.string().alphanum().max(20).required().required(),
+        // It seems that is has to be this format with what I type.
+        name: Joi.string().regex(/^[a-zA-Z ]+$/).max(20).required(),
         email: Joi.string().email().max(50).required(),
         password: Joi.string().max(20).required()
       }
