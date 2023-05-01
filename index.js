@@ -47,6 +47,7 @@ const port = process.env.PORT || 8020;
 
 app.get('/', (req, res) => {
     if (req.session.loggedIn) {
+      req.session.name = result[0].name;
       res.send(`
         <h1>Hello, ${req.session.name}</h1>
         <a href="/members"><button>View Member's Area</button></a>
@@ -77,6 +78,7 @@ app.get('/signup', (req,res) => {
     </form>
     `;
     res.send(html);
+    req.session.name = result[0].name;
 });
 
 app.post('/submitUser', async (req,res) => {
@@ -122,6 +124,7 @@ app.get('/login', (req,res) => {
     </form>
     `;
     res.send(html);
+    req.session.name = result[0].name;
 });
 
 app.post('/members', (req,res) => {
