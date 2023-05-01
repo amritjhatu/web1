@@ -125,7 +125,7 @@ app.get('/login', (req,res) => {
     res.send(html);
 });
 
-app.get('/members', (req,res) => {
+app.post('/members', (req,res) => {
     var html = `
     <h1>Hello, ${req.session.name}</h1>
     <br>
