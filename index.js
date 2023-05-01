@@ -184,7 +184,7 @@ app.post('/loggingin', async (req,res) => {
     return;
   }
 
-  const schema = Joi.string().name().max(50).required();
+  const schema = Joi.string().regex(/^[a-zA-Z ]+$/).max(20).required();
   const validationResult = schema.validate(name);
   if (validationResult.error != null) {
     res.redirect("/login?invalid=true");
