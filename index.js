@@ -129,8 +129,8 @@ app.get('/login', (req,res) => {
     var html = `
     log in
     <form action='/loggingin' method='post'>
-    <input name='username' type='text' placeholder='username'>
-    <input name='password' type='password' placeholder='password'>
+    <input name='username' type='text' placeholder='username'required>
+    <input name='password' type='password' placeholder='password'required>
     <button>Submit</button>
     </form>
     `;
