@@ -135,7 +135,9 @@ var html = `
 log in
     <form action='/loggingin' method='post'>
     <input name='username' type='text' placeholder='username'required>
+    <br>
     <input name='password' type='password' placeholder='password'required>
+    <br>
     <button>Submit</button>
     </form>
     ${req.query.incorrect === 'true' ? 'Wrong User value..' :''}
