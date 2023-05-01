@@ -123,7 +123,7 @@ app.post('/submitUser', async (req,res) => {
   await userCollection.insertOne({name: name, email: email, password: hashedPassword});
 
   req.session.authenticated = true;
-  req.session.name = user.name;
+  req.session.email = email;
   req.session.cookie.maxAge = expireTime;
   req.session.name = name;
 
@@ -205,7 +205,7 @@ app.post('/loggingin', async (req,res) => {
   if (await bcrypt.compare(password, result[0].password)) {
     console.log("correct password");
     req.session.authenticated = true;
-    req.session.email = email;
+    req.session.name = user.name;
     req.session.cookie.maxAge = expireTime;
     // This result check was not my idea, got help on that one. Great idea by the way.
     req.session.name = result[0].name; 
