@@ -45,32 +45,36 @@ app.use(session({
 
 const port = process.env.PORT || 8020;
 
+
 app.get('/', (req, res) => {
     var notLoggedIn = (`
     <form action="/login">
-    <button type="submit">Login</button>
+    <button type="submit">Log In</button>
     </form>
     <form action="/signup">
     <button type="submit">Sign Up</button>
     </form>
-    `);
-    if (!req.session.authenticated) {
-      res.send(notLoggedIn);
-    } else {
-      var loggedIn = `
-        <form action="/members">
-          <button type="submit">Visit Member's Page</button>
-        </form>
-        <form action="/logout">
-          <button type="submit">Log Out</button>
-        </form>
-      `;
-      res.send(loggedIn);
-    } 
-  });
+  `);
+
+  if (!req.session.authenticated) {
+    res.send(notLoggedIn);
+  } else {
+    var loggedIn = `
+    <div style="text-align: center;">
+    <form action="/members">
+    <button type="submit">Visit Member's Section</button>
+    </form>
+    <form action="/logout">
+    <button type="submit">Log Out</button>
+    </form>
+    </div>
+    `;
+    res.send(loggedIn);
+  } 
+});
 
 app.get('/signup', (req,res) => {
-    var html = `
+  var html = `
     Create your user here
     <br>
     <form action='/submitUser' method='post'>
@@ -82,152 +86,144 @@ app.get('/signup', (req,res) => {
     <br>
     <button>Submit</button>
     </form>
-    `;
-    res.send(html);
+    ${req.query.blank === 'true' ? 'Field is blank. Retry.' :''}
+    ${req.query.invalid === 'true' ? 'Field is not valid. Retry.' :''}
+  </div>
+  `;
+  res.send(html);
 });
 
 app.post('/submitUser', async (req,res) => {
-    var name = req.body.name;
-    var email = req.body.email;
-    var password = req.body.password;
-    
-    // Blank check. 
-    if(email == "" || password == "" || name == "") {
-      res.redirect("/signUp?blank=true");
-      return;
+  var name = req.body.name;
+  var email = req.body.email;
+  var password = req.body.password;
+  
+  if(email == "" || password == "" || name == "") {
+    res.redirect("/signUp?blank=true");
+    return;
+  }
+
+  const schema = Joi.object(
+    {
+      name: Joi.string().regex(/^[a-zA-Z ]+$/).max(20).required(),
+      email: Joi.string().email().max(50).required(),
+      password: Joi.string().max(20).required()
     }
-  
-    // This is mainly from the demo, but I want to understand it more in regards to what my options are for values.
-    const schema = Joi.object(
-      {
-        // It seems that is has to be this format with what I type.
-        name: Joi.string().regex(/^[a-zA-Z ]+$/).max(20).required(),
-        email: Joi.string().email().max(50).required(),
-        password: Joi.string().max(20).required()
-      }
-    );
-  
-    const validationResult = schema.validate({name, email, password});
-  
-    if (validationResult.error != null) {
-      res.redirect("/signUp?invalid=true");
-      return;
-    }
-  
-    var hashedPassword = await bcrypt.hashSync(password, saltRounds);
-  
-    await userCollection.insertOne({name: name, email: email, password: hashedPassword});
-  
-    req.session.authenticated = true;
-    req.session.email = email;
-    req.session.cookie.maxAge = expireTime;
-    req.session.name = name;
-  
-    res.redirect('/members');
-  });
+  );
+
+  const validationResult = schema.validate({name, email, password});
+
+  if (validationResult.error != null) {
+    res.redirect("/signUp?invalid=true");
+    return;
+  }
+
+  var hashedPassword = await bcrypt.hashSync(password, saltRounds);
+
+  await userCollection.insertOne({name: name, email: email, password: hashedPassword});
+
+  req.session.authenticated = true;
+  req.session.email = email;
+  req.session.cookie.maxAge = expireTime;
+  req.session.name = name;
+
+  res.redirect('/members');
+});
 
 app.get('/login', (req,res) => {
-    var html = `
-    log in
+var html = `
+log in
     <form action='/loggingin' method='post'>
     <input name='username' type='text' placeholder='username'required>
     <input name='password' type='password' placeholder='password'required>
     <button>Submit</button>
     </form>
-    `;
-    res.send(html);
+    ${req.query.incorrect === 'true' ? 'Wrong Email Address.' :''}
+    ${req.query.incorrectPass === 'true' ? 'Wrong Password.' :''}
+    ${req.query.blank === 'true' ? 'Field is blank.' :''}
+    ${req.query.invalid === 'true' ? 'Format is not valid.' :''}
+    ${req.query.notLoggedIn === 'true' ? 'You must log in.' :''}
+`;
+  res.send(html);
 });
 
 app.get('/members', (req, res) => {
-    if (!req.session.authenticated) {
-      res.redirect('/login?notLoggedIn=true');
-      return;
-    }
+  if (!req.session.authenticated) {
+    res.redirect('/login?notLoggedIn=true');
+    return;
+  }
+
+  function getRandomNumber() {
+    return Math.floor(Math.random() * 3) + 1;
+  }  
+const rNum = getRandomNumber();
   
-    function getRandomNumber() {
-        return Math.floor(Math.random() * 3) + 1;
-      }  
-    const rNum = getRandomNumber();
-      
-    const slothCarousel = '/sloth' + rNum + '.gif';
-  
-    var html = `
-      <h1>Hello ${req.session.name} 
-      <br>
-      Welcome to the member's section ...</h1>
-      <br>
-      ${slothCarousel} 
-      <br>
+const slothCarousel = '/sloth' + rNum + '.gif';
+
+  var html = `
+      <h1>Hello ${req.session.name}</h1>
+      <img src=${slothCarousel}>
       <form action="/">
       <button type="submit">Return Home</button>
       </form>
       <form action="/logout">
       <button type="submit">Log Out</button>
       </form>
-      </div>
-    `;
-    res.send(html);
-  });
+  `;
+  res.send(html);
+});
 
 app.post('/loggingin', async (req,res) => {
-    var email = req.body.email;
-    var password = req.body.password;
-  
-    if(email == "" || password == "") {
-      res.redirect("/login?blank=true");
-      return;
-    }
-  
-    const schema = Joi.string().email().max(50).required();
-    const validationResult = schema.validate(email);
-    if (validationResult.error != null) {
-      console.log(validationResult.error);
-      res.redirect("/login?invalid=true");
-      return;
-    }
-  
-    const result = await userCollection.find({
-      email: email
-    }).project({name: 1, email: 1, password: 1, _id: 1}).toArray();
-  
-    if(result.length != 1) {
-      res.redirect("/login?incorrect=true");
-      return;
-    }
-  
-    // check if password matches for the username found in the database
-    if (await bcrypt.compare(password, result[0].password)) {
-      req.session.authenticated = true;
-      req.session.email = email;
-      req.session.cookie.maxAge = expireTime;
-      // The result into the session name wasn't my idea, I did ask for help there.
-      req.session.name = result[0].name; 
+  var email = req.body.email;
+  var password = req.body.password;
 
-      res.redirect('/members');
-    } else {
-      //user and password combination not found
-      res.redirect("/login?incorrectPass=true");
-    }
-  });
+  if(email == "" || password == "") {
+    res.redirect("/login?blank=true");
+    return;
+  }
 
-app.get('/loggedIn', (req,res) => {
-    if (!req.session.loggedIn) {
-        res.redirect('/login');
-        return;
-    }
-    var html = `
-    You are logged in!
-    `;
-    res.send(html);
-  });
+  const schema = Joi.string().email().max(50).required();
+  const validationResult = schema.validate(email);
+  if (validationResult.error != null) {
+    res.redirect("/login?invalid=true");
+    return;
+  }
 
-  app.get('/logout', (req,res) => {
-	req.session.destroy();
-    var html = `
-    You are logged out.
-    `;
-    res.send(html);
+  const result = await userCollection.find({
+    email: email
+  }).project({name: 1, email: 1, password: 1, _id: 1}).toArray();
+  console.log(result);
+
+  if(result.length != 1) {
+    res.redirect("/login?incorrect=true");
+    return;
+  }
+
+  // check if password matches for the username found in the database
+  if (await bcrypt.compare(password, result[0].password)) {
+    console.log("correct password");
+    req.session.authenticated = true;
+    req.session.email = email;
+    req.session.cookie.maxAge = expireTime;
+    // This result check was not my idea, got help on that one. Great idea by the way.
+    req.session.name = result[0].name; 
+    res.redirect('/members');
+  } else {
+    //user and password combination not found
+    res.redirect("/login?incorrectPass=true");
+  }
 });
+
+app.get('/logout', (req, res) => {
+    req.session.destroy();
+      var html = `
+      You are logged out.
+      <form action="/">
+      <button type="submit">Return Home</button>
+      </form>
+      `;
+    res.send(html);
+  }); 
 
 app.get('/sloth/:id', (req,res) => {
 
@@ -243,6 +239,7 @@ app.get('/sloth/:id', (req,res) => {
         res.send("Invalid sloth id: "+sloth);
     }
 });
+
 
 app.use(express.static(__dirname + "/public"));
 
